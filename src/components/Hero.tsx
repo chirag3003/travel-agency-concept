@@ -4,7 +4,7 @@ import { MapPin, Calendar, Users } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -52,7 +52,7 @@ const Hero = () => {
                 <Users className="h-4 w-4" />
                 Travelers
               </label>
-              <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+              <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white">
                 <option>1 Person</option>
                 <option>2 People</option>
                 <option>3+ People</option>
@@ -68,7 +68,7 @@ const Hero = () => {
           <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-3">
             Explore Packages
           </Button>
-          <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-gray-900 text-lg px-8 py-3">
+          <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-gray-900 text-lg px-8 py-3 bg-transparent">
             Plan My Trip
           </Button>
         </div>
