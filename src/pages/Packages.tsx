@@ -1,18 +1,21 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plane, MapPin, Clock, Heart, Star } from "lucide-react";
-import { motion } from "framer-motion";
+import { MapPin, Clock, Heart, Star } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 
 const Packages = () => {
+  const [activeCategory, setActiveCategory] = useState('all');
+
   const categories = [
-    { id: 'all', label: 'All Packages', active: true },
-    { id: 'student', label: 'Student Special', active: false },
-    { id: 'family', label: 'Family Special', active: false },
-    { id: 'couple', label: 'Couple Special', active: false },
-    { id: 'adventure', label: 'Adventure', active: false },
-    { id: 'luxury', label: 'Luxury', active: false }
+    { id: 'all', label: 'All Packages' },
+    { id: 'student', label: 'Student Special' },
+    { id: 'family', label: 'Family Special' },
+    { id: 'couple', label: 'Couple Special' },
+    { id: 'adventure', label: 'Adventure' },
+    { id: 'luxury', label: 'Luxury' }
   ];
 
   const packages = [
@@ -102,14 +105,16 @@ const Packages = () => {
     }
   ];
 
+  const filteredPackages = activeCategory === 'all' 
+    ? packages 
+    : packages.filter(pkg => pkg.category === activeCategory);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50">
-      {/* Navigation */}
-      {/* Navigation */}
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
+      <section className="relative py-20 pb-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
           <motion.h1 
             initial={{ opacity: 0, scale: 0.9 }}
@@ -128,22 +133,23 @@ const Packages = () => {
             Discover handcrafted travel experiences designed for every type of traveler. 
             From budget-friendly student specials to luxurious getaways.
           </motion.p>
-
+          
           {/* Category Filters */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap justify-center gap-4 mb-12"
+            className="flex flex-wrap justify-center gap-4 mb-4"
           >
             {categories.map((category) => (
               <Button
                 key={category.id}
-                variant={category.active ? "default" : "outline"}
-                className={`px-6 py-2 transition-all duration-300 hover:scale-105 ${
-                  category.active 
-                    ? "bg-blue-600 hover:bg-blue-700" 
-                    : "border-blue-600 text-blue-600 hover:bg-blue-50"
+                variant={activeCategory === category.id ? "default" : "outline"}
+                onClick={() => setActiveCategory(category.id)}
+                className={`px-6 py-2 rounded-full transition-all duration-300 ${
+                  activeCategory === category.id
+                    ? "bg-blue-600 hover:bg-blue-700 shadow-lg scale-105" 
+                    : "border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-300"
                 }`}
               >
                 {category.label}
@@ -154,94 +160,117 @@ const Packages = () => {
       </section>
 
       {/* Packages Grid */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8">
+      <section className="py-12 px-4 sm:px-6 lg:px-8 min-h-[600px]">
         <div className="max-w-7xl mx-auto">
           <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            layout
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {packages.map((pkg, index) => (
-              <motion.div
-                key={pkg.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-              >
-                <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300 group h-full flex flex-col">
-                  <div className="relative">
-                    <img 
-                      src={pkg.image} 
-                      alt={pkg.title}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <Badge className="absolute top-4 left-4 bg-orange-500 hover:bg-orange-600">
-                      {pkg.badge}
-                    </Badge>
-                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-colors cursor-pointer hover:scale-110">
-                      <Heart className="h-4 w-4 text-gray-600 hover:text-red-500 hover:fill-red-500 transition-colors" />
+            <AnimatePresence mode="popLayout">
+              {filteredPackages.map((pkg) => (
+                <motion.div
+                  layout
+                  key={pkg.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Card className="overflow-hidden hover:shadow-2xl transition-all duration-300 group h-full flex flex-col border-0 bg-white/80 backdrop-blur-sm">
+                    <div className="relative overflow-hidden">
+                      <img 
+                        src={pkg.image} 
+                        alt={pkg.title}
+                        className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
+                      <Badge className="absolute top-4 left-4 bg-orange-500/90 backdrop-blur-sm hover:bg-orange-600">
+                        {pkg.badge}
+                      </Badge>
+                      <button className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2.5 hover:bg-white transition-all hover:scale-110 shadow-sm group/heart">
+                        <Heart className="h-4 w-4 text-gray-600 group-hover/heart:text-red-500 group-hover/heart:fill-red-500 transition-colors" />
+                      </button>
                     </div>
-                  </div>
-                  
-                  <CardHeader className="pb-4 flex-grow">
-                    <div className="flex justify-between items-start mb-2">
-                      <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                        {pkg.title}
-                      </CardTitle>
-                      <div className="flex items-center gap-1">
+                    
+                    <CardHeader className="pb-4 flex-grow">
+                      <div className="flex justify-between items-start mb-2">
+                        <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+                          {pkg.title}
+                        </CardTitle>
+                      </div>
+                      
+                      <div className="flex items-center gap-1 mb-3">
                         <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        <span className="text-sm font-medium">{pkg.rating}</span>
-                        <span className="text-sm text-gray-500">({pkg.reviews})</span>
+                        <span className="text-sm font-bold text-gray-900">{pkg.rating}</span>
+                        <span className="text-sm text-gray-500">({pkg.reviews} reviews)</span>
                       </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-2 text-gray-600 mb-3">
-                      <MapPin className="h-4 w-4" />
-                      <span className="text-sm">{pkg.destinations.join(" → ")}</span>
-                    </div>
-                    
-                    <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
-                      <div className="flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
-                        <span>{pkg.duration}</span>
+                      
+                      <div className="flex items-center gap-2 text-gray-600 mb-2">
+                        <MapPin className="h-4 w-4 text-blue-500" />
+                        <span className="text-sm font-medium line-clamp-1">{pkg.destinations.join(" → ")}</span>
                       </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-gray-900">Package Highlights:</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {pkg.highlights.map((highlight, index) => (
-                          <Badge key={index} variant="secondary" className="text-xs">
-                            {highlight}
-                          </Badge>
-                        ))}
+                      
+                      <div className="flex items-center gap-2 text-gray-600 mb-4">
+                        <Clock className="h-4 w-4 text-blue-500" />
+                        <span className="text-sm font-medium">{pkg.duration}</span>
                       </div>
-                    </div>
-                  </CardHeader>
-                  
-                  <CardContent className="pt-0">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl font-bold text-green-600">{pkg.price}</span>
-                        <span className="text-sm text-gray-500 line-through">{pkg.originalPrice}</span>
+                      
+                      <div className="space-y-2">
+                        <div className="flex flex-wrap gap-2">
+                          {pkg.highlights.slice(0, 3).map((highlight, index) => (
+                            <Badge key={index} variant="secondary" className="text-xs bg-blue-50 text-blue-700 hover:bg-blue-100">
+                              {highlight}
+                            </Badge>
+                          ))}
+                        </div>
                       </div>
-                      <span className="text-sm text-gray-600">per person</span>
-                    </div>
+                    </CardHeader>
                     
-                    <div className="flex gap-2">
-                      <Button className="flex-1 bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105">
-                        View Details
-                      </Button>
-                      <Button variant="outline" className="flex-1 border-orange-500 text-orange-500 hover:bg-orange-50 transition-all hover:scale-105">
-                        Book Now
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+                    <CardContent className="pt-0 border-t border-gray-100 bg-gray-50/50 p-6">
+                      <div className="flex items-end justify-between mb-4">
+                        <div>
+                          <span className="text-sm text-gray-500 block mb-1">Starting from</span>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-2xl font-bold text-blue-600">{pkg.price}</span>
+                            <span className="text-sm text-gray-400 line-through decoration-red-400">{pkg.originalPrice}</span>
+                          </div>
+                        </div>
+                        <span className="text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                          Save {Math.round((parseInt(pkg.originalPrice.replace(/[^0-9]/g, '')) - parseInt(pkg.price.replace(/[^0-9]/g, ''))) / parseInt(pkg.originalPrice.replace(/[^0-9]/g, '')) * 100)}%
+                        </span>
+                      </div>
+                      
+                      <div className="flex gap-3">
+                        <Button variant="outline" className="flex-1 border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-300 font-semibold group/btn">
+                          View Details
+                        </Button>
+                        <Button className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5">
+                          Book Now
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </motion.div>
+          
+          {filteredPackages.length === 0 && (
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }}
+              className="text-center py-20"
+            >
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">No packages found</h3>
+              <p className="text-gray-500">Try selecting a different category or view all packages.</p>
+              <Button 
+                variant="link" 
+                onClick={() => setActiveCategory('all')}
+                className="mt-4 text-blue-600"
+              >
+                View all packages
+              </Button>
+            </motion.div>
+          )}
         </div>
       </section>
 
@@ -261,7 +290,7 @@ const Packages = () => {
             the perfect itinerary based on your preferences and budget.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-lg px-8 py-3 hover:scale-105 transition-transform">
+            <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-lg px-8 py-3 hover:scale-105 transition-transform shadow-lg">
               Customize Package
             </Button>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-3 bg-transparent hover:scale-105 transition-transform">
