@@ -1,8 +1,8 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, Star } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Destinations = () => {
   const destinations = [
@@ -56,72 +56,119 @@ const Destinations = () => {
     }
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
   return (
     <section id="destinations" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white">
       <div className="text-center mb-16">
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        <motion.h2 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+        >
           Popular <span className="text-orange-500">Destinations</span>
-        </h2>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        </motion.h2>
+        <motion.p 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-xl text-gray-600 max-w-3xl mx-auto"
+        >
           Discover incredible places with our handpicked travel packages designed for unforgettable experiences
-        </p>
+        </motion.p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      >
         {destinations.map((destination, index) => (
-          <Card key={index} className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-            <div className="relative overflow-hidden">
-              <img 
-                src={destination.image} 
-                alt={destination.name}
-                className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-              />
-              <div className="absolute top-4 right-4">
-                <Badge className="bg-white/90 text-gray-900 hover:bg-white">
-                  <Star className="h-3 w-3 mr-1 fill-yellow-400 text-yellow-400" />
-                  {destination.rating}
-                </Badge>
-              </div>
-              <div className="absolute top-4 left-4">
-                <Badge className="bg-orange-500 hover:bg-orange-600">
-                  {destination.duration}
-                </Badge>
-              </div>
-            </div>
-            
-            <CardContent className="p-6">
-              <div className="flex items-center mb-2">
-                <MapPin className="h-4 w-4 text-gray-500 mr-1" />
-                <h3 className="text-xl font-bold text-gray-900">{destination.name}</h3>
-              </div>
-              
-              <div className="flex flex-wrap gap-2 mb-4">
-                {destination.features.map((feature, idx) => (
-                  <Badge key={idx} variant="secondary" className="text-xs">
-                    {feature}
+          <motion.div key={index} variants={itemVariants}>
+            <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 h-full flex flex-col">
+              <div className="relative overflow-hidden h-48">
+                <img 
+                  src={destination.image} 
+                  alt={destination.name}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4">
+                  <Badge className="bg-white/90 text-gray-900 hover:bg-white flex items-center gap-1">
+                    <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                    {destination.rating}
                   </Badge>
-                ))}
+                </div>
+                <div className="absolute top-4 left-4">
+                  <Badge className="bg-orange-500 hover:bg-orange-600">
+                    {destination.duration}
+                  </Badge>
+                </div>
               </div>
               
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-2xl font-bold text-blue-600">{destination.price}</span>
-                  <span className="text-gray-500 text-sm ml-1">per person</span>
+              <CardContent className="p-6 flex flex-col flex-grow">
+                <div className="flex items-center mb-2">
+                  <MapPin className="h-4 w-4 text-gray-500 mr-1" />
+                  <h3 className="text-xl font-bold text-gray-900">{destination.name}</h3>
                 </div>
-                <Button className="bg-orange-500 hover:bg-orange-600">
-                  Book Now
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+                
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {destination.features.map((feature, idx) => (
+                    <Badge key={idx} variant="secondary" className="text-xs">
+                      {feature}
+                    </Badge>
+                  ))}
+                </div>
+                
+                <div className="mt-auto flex items-center justify-between pt-4 border-t border-gray-100">
+                  <div>
+                    <span className="text-2xl font-bold text-blue-600">{destination.price}</span>
+                    <span className="text-gray-500 text-sm ml-1">per person</span>
+                  </div>
+                  <Button className="bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-transform duration-200">
+                    Book Now
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
-      <div className="text-center mt-12">
-        <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.4 }}
+        className="text-center mt-12"
+      >
+        <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 transition-all duration-300 hover:scale-105">
           View All Destinations
         </Button>
-      </div>
+      </motion.div>
     </section>
   );
 };

@@ -1,8 +1,9 @@
-
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plane, MapPin, Calendar, Users, Star, Clock, Heart } from "lucide-react";
+import { Plane, MapPin, Clock, Heart, Star } from "lucide-react";
+import { motion } from "framer-motion";
+import Navbar from "@/components/Navbar";
 
 const Packages = () => {
   const categories = [
@@ -104,43 +105,42 @@ const Packages = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50">
       {/* Navigation */}
-      <nav className="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <Plane className="h-8 w-8 text-blue-600" />
-              <span className="text-2xl font-bold text-gray-900">WanderWings</span>
-            </div>
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="/" className="text-gray-700 hover:text-blue-600 transition-colors">Home</a>
-              <a href="#services" className="text-gray-700 hover:text-blue-600 transition-colors">Services</a>
-              <a href="/packages" className="text-blue-600 font-semibold">Packages</a>
-              <a href="#testimonials" className="text-gray-700 hover:text-blue-600 transition-colors">Reviews</a>
-              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
-              <Button className="bg-orange-500 hover:bg-orange-600">Book Now</Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      {/* Navigation */}
+      <Navbar />
 
       {/* Hero Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
+          >
             Our Travel <span className="text-orange-500">Packages</span>
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12">
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-xl text-gray-600 max-w-3xl mx-auto mb-12"
+          >
             Discover handcrafted travel experiences designed for every type of traveler. 
             From budget-friendly student specials to luxurious getaways.
-          </p>
+          </motion.p>
 
           {/* Category Filters */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex flex-wrap justify-center gap-4 mb-12"
+          >
             {categories.map((category) => (
               <Button
                 key={category.id}
                 variant={category.active ? "default" : "outline"}
-                className={`px-6 py-2 ${
+                className={`px-6 py-2 transition-all duration-300 hover:scale-105 ${
                   category.active 
                     ? "bg-blue-600 hover:bg-blue-700" 
                     : "border-blue-600 text-blue-600 hover:bg-blue-50"
@@ -149,93 +149,110 @@ const Packages = () => {
                 {category.label}
               </Button>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Packages Grid */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {packages.map((pkg) => (
-              <Card key={pkg.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
-                <div className="relative">
-                  <img 
-                    src={pkg.image} 
-                    alt={pkg.title}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <Badge className="absolute top-4 left-4 bg-orange-500 hover:bg-orange-600">
-                    {pkg.badge}
-                  </Badge>
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-colors">
-                    <Heart className="h-4 w-4 text-gray-600" />
-                  </div>
-                </div>
-                
-                <CardHeader className="pb-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                      {pkg.title}
-                    </CardTitle>
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm font-medium">{pkg.rating}</span>
-                      <span className="text-sm text-gray-500">({pkg.reviews})</span>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {packages.map((pkg, index) => (
+              <motion.div
+                key={pkg.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 * index }}
+              >
+                <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300 group h-full flex flex-col">
+                  <div className="relative">
+                    <img 
+                      src={pkg.image} 
+                      alt={pkg.title}
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <Badge className="absolute top-4 left-4 bg-orange-500 hover:bg-orange-600">
+                      {pkg.badge}
+                    </Badge>
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-colors cursor-pointer hover:scale-110">
+                      <Heart className="h-4 w-4 text-gray-600 hover:text-red-500 hover:fill-red-500 transition-colors" />
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-2 text-gray-600 mb-3">
-                    <MapPin className="h-4 w-4" />
-                    <span className="text-sm">{pkg.destinations.join(" → ")}</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-4 w-4" />
-                      <span>{pkg.duration}</span>
+                  <CardHeader className="pb-4 flex-grow">
+                    <div className="flex justify-between items-start mb-2">
+                      <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                        {pkg.title}
+                      </CardTitle>
+                      <div className="flex items-center gap-1">
+                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        <span className="text-sm font-medium">{pkg.rating}</span>
+                        <span className="text-sm text-gray-500">({pkg.reviews})</span>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <h4 className="font-semibold text-gray-900">Package Highlights:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {pkg.highlights.map((highlight, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {highlight}
-                        </Badge>
-                      ))}
+                    
+                    <div className="flex items-center gap-2 text-gray-600 mb-3">
+                      <MapPin className="h-4 w-4" />
+                      <span className="text-sm">{pkg.destinations.join(" → ")}</span>
                     </div>
-                  </div>
-                </CardHeader>
-                
-                <CardContent className="pt-0">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl font-bold text-green-600">{pkg.price}</span>
-                      <span className="text-sm text-gray-500 line-through">{pkg.originalPrice}</span>
+                    
+                    <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-4 w-4" />
+                        <span>{pkg.duration}</span>
+                      </div>
                     </div>
-                    <span className="text-sm text-gray-600">per person</span>
-                  </div>
+                    
+                    <div className="space-y-2">
+                      <h4 className="font-semibold text-gray-900">Package Highlights:</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {pkg.highlights.map((highlight, index) => (
+                          <Badge key={index} variant="secondary" className="text-xs">
+                            {highlight}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </CardHeader>
                   
-                  <div className="flex gap-2">
-                    <Button className="flex-1 bg-blue-600 hover:bg-blue-700">
-                      View Details
-                    </Button>
-                    <Button variant="outline" className="flex-1 border-orange-500 text-orange-500 hover:bg-orange-50">
-                      Book Now
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                  <CardContent className="pt-0">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl font-bold text-green-600">{pkg.price}</span>
+                        <span className="text-sm text-gray-500 line-through">{pkg.originalPrice}</span>
+                      </div>
+                      <span className="text-sm text-gray-600">per person</span>
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      <Button className="flex-1 bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105">
+                        View Details
+                      </Button>
+                      <Button variant="outline" className="flex-1 border-orange-500 text-orange-500 hover:bg-orange-50 transition-all hover:scale-105">
+                        Book Now
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-600 to-teal-600">
-        <div className="max-w-4xl mx-auto text-center text-white">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="max-w-4xl mx-auto text-center text-white"
+        >
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Can't Find Your Perfect Package?
           </h2>
@@ -244,14 +261,14 @@ const Packages = () => {
             the perfect itinerary based on your preferences and budget.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-lg px-8 py-3">
+            <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-lg px-8 py-3 hover:scale-105 transition-transform">
               Customize Package
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-3">
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-3 bg-transparent hover:scale-105 transition-transform">
               Contact Expert
             </Button>
           </div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );
