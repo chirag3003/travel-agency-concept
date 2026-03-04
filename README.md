@@ -1,73 +1,77 @@
-# Welcome to your Lovable project
+# Travel Agency Concept
 
-## Project info
+A modern, high-performance travel agency web application concept. This prototype showcases a premium digital experience for discovering destinations, browsing curated travel packages, and facilitating user engagement through a polished, responsive interface.
 
-**URL**: https://lovable.dev/projects/e477a84a-36a3-4fca-83d4-a73c2b5d381b
+## 🌟 Overview
 
-## How can I edit this code?
+This project serves as a comprehensive concept for a travel agency, focusing on visual storytelling and seamless user journeys. It demonstrates how modern web technologies can be leveraged to create an inviting and functional travel booking platform.
 
-There are several ways of editing your application.
+### Key Features
 
-**Use Lovable**
+-   **Interactive Hero Experience:** Captivating landing section designed to convert visitors.
+-   **Curated Destinations:** A visual showcase of popular travel spots with pricing and ratings.
+-   **Dynamic Package Filtering:** An advanced "Packages" page allowing users to filter by category (Student, Family, Couple, Adventure, Luxury).
+-   **Service Showcase:** Detailed sections for agency offerings like flight bookings and hotel reservations.
+-   **Modern UI/UX:** Built with a "mobile-first" approach using Tailwind CSS and Radix UI primitives.
+-   **Fluid Animations:** Smooth transitions and scroll-reveal effects powered by Framer Motion.
+-   **Lead Generation:** Integrated contact forms and CTA sections for customer inquiries.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e477a84a-36a3-4fca-83d4-a73c2b5d381b) and start prompting.
+## 🛠️ Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+-   **Framework:** [React 18](https://reactjs.org/) with [TypeScript](https://www.typescriptlang.org/)
+-   **Build Tool:** [Vite](https://vitejs.dev/)
+-   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+-   **UI Components:** [shadcn/ui](https://ui.shadcn.com/) (Radix UI)
+-   **Animations:** [Framer Motion](https://www.framer.com/motion/)
+-   **Icons:** [Lucide React](https://lucide.dev/)
+-   **Routing:** [React Router Dom](https://reactrouter.com/)
+-   **State Management:** [TanStack Query](https://tanstack.com/query/latest) (Ready for API integration)
 
-**Use your preferred IDE**
+## 📁 Project Structure
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```text
+src/
+├── components/       # Reusable UI elements (Navbar, Hero, Destinations, etc.)
+│   └── ui/           # Atomic shadcn/ui components
+├── pages/            # Main application views (Index, Packages, NotFound)
+├── hooks/            # Custom React hooks (e.g., use-mobile)
+├── lib/              # Utility functions and configurations
+└── App.tsx           # Main application routing and providers
 ```
 
-**Edit a file directly in GitHub**
+## 🚀 Getting Started
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Prerequisites
 
-**Use GitHub Codespaces**
+-   Node.js (v18 or higher)
+-   npm or bun
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Installation
 
-## What technologies are used for this project?
+1.  Clone the repository:
+    ```bash
+    git clone <repository-url>
+    cd travel-agency-concept
+    ```
 
-This project is built with:
+2.  Install dependencies:
+    ```bash
+    npm install
+    # or
+    bun install
+    ```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+3.  Start the development server:
+    ```bash
+    npm run dev
+    ```
 
-## How can I deploy this project?
+The application will be available at `http://localhost:5173`.
 
-Simply open [Lovable](https://lovable.dev/projects/e477a84a-36a3-4fca-83d4-a73c2b5d381b) and click on Share -> Publish.
+## 📝 Project Status
 
-## Can I connect a custom domain to my Lovable project?
+This is a **Concept/Prototype**. While the UI is fully functional and responsive, the data is currently managed via structured mock objects in the frontend components, making it ready for easy integration with a Headless CMS or a custom Backend API.
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+*Created as a modern travel agency digital concept.*
